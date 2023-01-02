@@ -95,6 +95,14 @@ public class ReserveMenu {
 		}
 	}
 	
+	public void hotelChoice() {
+		System.out.print("호텔 번호를 입력해주세요 : ");
+		int num = sc.nextInt();
+		sc.nextLine();
+		
+		rc.hotelChoice(num);
+	}
+	
 	public void reserveChoice() {
 		//선택한 호텔정보 출력
 		while(true) {
@@ -114,7 +122,7 @@ public class ReserveMenu {
 	}
 	
 	
-	//===========================================================================
+	//=============================== 응답화면 ============================================
 	
 	public void loginFail(String message) {
 		System.out.println(message);
@@ -126,6 +134,10 @@ public class ReserveMenu {
 		for(Room r : list) {
 			System.out.println(r);
 		}
+	}
+	
+	public void noDate(String message) {
+		System.out.println(message);
 	}
 
 }

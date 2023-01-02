@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.reserve.model.dao.ReserveDao;
+import com.reserve.model.vo.Review;
 import com.reserve.model.vo.Room;
 
 public class ReserveService {
@@ -24,5 +25,14 @@ public class ReserveService {
 		close(conn);
 		
 		return list;
+	}
+	
+	public Review hotelChoice(int num) {
+		Connection conn = getConnection();
+		Review r = new ReserveDao().hotelChoice(conn, num);
+		close(conn);
+		
+		return r;
+		
 	}
 }
