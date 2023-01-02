@@ -11,7 +11,7 @@ public class ReserveMenu {
 	private ReserveController rc = new ReserveController();
 	
 	
-	public void rogin() {
+	public void login() {
 		
 		while(true) {
 			System.out.println("로그인 화면입니다.");
@@ -23,12 +23,23 @@ public class ReserveMenu {
 			int num = sc.nextInt();
 			sc.nextLine();
 			switch(num) {
-			case 1 :    break;
+			case 1 : inputLogin();    break;
 			case 2 :    break;
 			case 3 : System.out.println("프로그램을 종료합니다"); return;
 			default : System.out.println("잘못된 숫자를 입력했습니다.");  break;
 			}
 		}
+	}
+	
+	public void inputLogin() {
+		System.out.println("== 숙박 프로그램 ==");
+		System.out.println();
+		System.out.print("아이디를 입력하세요 : ");
+		String userId = sc.nextLine();
+		System.out.print("비밀번호를 입력하세요 : ");
+		String userPwd = sc.nextLine();
+		
+		rc.login(userId, userPwd);
 	}
 	
 	
@@ -97,6 +108,14 @@ public class ReserveMenu {
 		default:System.out.println("잘못 입력했습니다.");   break;
 		}
 		}
+	}
+	
+	//===========================================================================
+	
+	public void loginFail(String message) {
+		System.out.println(message);
+		System.out.println();
+		login();
 	}
 
 }
