@@ -6,4 +6,9 @@ SELECT RESERVATION_NO
 FROM TB_MEMBER
 WHERE USERID = ? AND USERPWD = ?
 </entry>
+
+<entry key = "allSelect">
+SELECT *
+FROM TB_ROOM
+</entry>
 </properties>

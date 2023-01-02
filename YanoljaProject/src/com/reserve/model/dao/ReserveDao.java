@@ -8,7 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
+
+import com.reserve.model.vo.Room;
 
 public class ReserveDao {
 
@@ -46,5 +49,34 @@ public class ReserveDao {
 			close(pstmt);
 		}
 		return result;
+	}
+	
+	public ArrayList<Room> allSelect(Connection conn){
+		ArrayList<Room> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("allSelect");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Room(rset.getInt("ROOMNO")
+								 ,rset.getString("ROOMNAME")
+								 ,rset.getInt("CAPACITY")
+								 ,rset.getString("TYPE")
+								 ,rset.getString("LOCATION")
+								 ,rset.getInt("PRICE")
+						
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }

@@ -1,8 +1,10 @@
 package com.reserve.view;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.reserve.controller.ReserveController;
+import com.reserve.model.vo.Room;
 
 public class ReserveMenu {
 	
@@ -31,7 +33,7 @@ public class ReserveMenu {
 		}
 	}
 	
-	public void inputLogin() {
+	public void inputLogin() { //login 입력시키는 메소드
 		System.out.println("== 숙박 프로그램 ==");
 		System.out.println();
 		System.out.print("아이디를 입력하세요 : ");
@@ -73,6 +75,7 @@ public class ReserveMenu {
 		while(true) {
 			System.out.println("== 예약하기 메뉴==");
 			System.out.println();
+			rc.allSelect();
 			System.out.println("1) 선택하기"); // 인호
 			System.out.println("2) 별점순으로 보기"); // 연준
 			System.out.println("3) 이름순"); // 연준
@@ -110,12 +113,19 @@ public class ReserveMenu {
 		}
 	}
 	
+	
 	//===========================================================================
 	
 	public void loginFail(String message) {
 		System.out.println(message);
 		System.out.println();
 		login();
+	}
+	
+	public void outputList(ArrayList<Room> list) {
+		for(Room r : list) {
+			System.out.println(r);
+		}
 	}
 
 }
