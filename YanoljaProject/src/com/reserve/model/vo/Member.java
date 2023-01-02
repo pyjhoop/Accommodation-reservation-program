@@ -10,8 +10,16 @@ public class Member {
 	public Member() {}
 
 	public Member(int reservationNo, String userName, String userId, String userPwd, int guests) {
-		super();
 		this.reservationNo = reservationNo;
+		this.userName = userName;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.guests = guests;
+	}
+	
+	
+
+	public Member(String userName, String userId, String userPwd, int guests) {
 		this.userName = userName;
 		this.userId = userId;
 		this.userPwd = userPwd;

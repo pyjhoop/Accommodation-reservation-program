@@ -1,8 +1,10 @@
 package com.reserve.view;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.reserve.controller.ReserveController;
+import com.reserve.model.vo.Member;
 
 public class ReserveMenu {
 	
@@ -24,7 +26,7 @@ public class ReserveMenu {
 			sc.nextLine();
 			switch(num) {
 			case 1 :    break;
-			case 2 :    break;
+			case 2 : signUp();break;
 			case 3 : System.out.println("프로그램을 종료합니다"); return;
 			default : System.out.println("잘못된 숫자를 입력했습니다.");  break;
 			}
@@ -97,6 +99,51 @@ public class ReserveMenu {
 		default:System.out.println("잘못 입력했습니다.");   break;
 		}
 		}
+	}
+	
+	/**
+	 * 회원가입시 이름, 아이디, 비번을 입력받고 아이디 중복시 중복있다고 알려주는 메서드
+	 * @author 박연준
+	 */
+	public void signUp() {
+		boolean flag = false;
+		System.out.println("=== 회원 가입 ===");
+		System.out.print("\n이름 입력 : ");
+		String userName = sc.nextLine();
+		String userId = "";
+		
+		ArrayList<String> userNames = rc.getUserNames();
+		System.out.println(userNames);
+		while(true) {
+			System.out.print("아이디 입력 : ");
+			userId = sc.nextLine();
+			for(String s: userNames) {
+				if(s.equals(userId)) {
+					System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요\n");
+					break;
+				}else {
+					System.out.println("사용가능한 아이디입니다\n");
+					flag = true;
+					break;
+				}
+			}
+			if(flag) {
+				break;
+			}
+		}
+		System.out.print("비밀번호 입력 : ");
+		String pwd = sc.nextLine();
+		System.out.print("\n예약 인원수 입력 : ");
+		String guest = sc.nextLine();
+		
+		Member m = new Member(userName, userId, pwd, Integer.parseInt(guest));
+		rc.signUp(m);
+	}
+	
+	
+	//====================== 메세지 출력=========================
+	public void signUpMessage(String message) {
+		System.out.println(message);
 	}
 
 }
