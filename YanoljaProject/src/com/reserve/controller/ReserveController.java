@@ -44,11 +44,19 @@ public class ReserveController {
 	}
 	
 	public void hotelChoice(int num) {
-		Review r = new ReserveService().hotelChoice(num);
+		Room r = new ReserveService().hotelChoice(num);
 		
 		if(r==null) {
 			new ReserveMenu().noDate("존재하지 않는 객실입니다.");
-
+		}else{
+			new ReserveMenu().reserveChoice(r);
 		}
+	}
+	
+	public ArrayList<Review> getReview(int RoomNo) {
+		ArrayList<Review> list = new ReserveService().getReview(RoomNo);
+		
+		
+		return list;
 	}
 }

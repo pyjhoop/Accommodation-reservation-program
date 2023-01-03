@@ -131,8 +131,8 @@ public class ReserveDao {
 		return result;
 	}
 	
-	public Review hotelChoice(Connection conn,int num) {
-		Review r = null;
+	public Room hotelChoice(Connection conn,int num) {
+		Room r = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -144,16 +144,13 @@ public class ReserveDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-			r = new Review();
+			r = new Room();
 			r.setRoomNo(rset.getInt("ROOMNO"));
 			r.setRoomName(rset.getString("ROOMNAME"));
 			r.setCapacity(rset.getInt("CAPACITY"));
 			r.setType(rset.getString("TYPE"));
 			r.setLocation(rset.getString("LOCATION"));
 			r.setPrice(rset.getInt("PRICE"));
-			r.setReviewNo(rset.getInt("REVIEWNO"));
-			r.setReview(rset.getString("REVIEW"));
-			r.setRated(rset.getInt("RATED"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -162,5 +159,33 @@ public class ReserveDao {
 			close(pstmt);
 		}
 		return r;
+	}
+	
+	public ArrayList<Review> getReview(Connection conn,int RoomNo){
+		ArrayList<Review> list = new ArrayList<>();
+		PreparedStatement pstmt= null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("getReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, RoomNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Review(rset.getInt("REVIEWNO")
+								   ,rset.getString("REVIEW")
+								   ,rset.getInt("RATED")
+						
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }

@@ -86,7 +86,7 @@ public class ReserveMenu {
 			int num = sc.nextInt();
 			sc.nextLine();
 			switch(num) {
-			case 1: 	break;
+			case 1: hotelChoice();	break;
 			case 2:     break;
 			case 3:     break;
 			case 4:     break;
@@ -104,23 +104,33 @@ public class ReserveMenu {
 		rc.hotelChoice(num);
 	}
 	
-	public void reserveChoice() {
+	public void reserveChoice(Room r) {
 		//선택한 호텔정보 출력
 		while(true) {
-		System.out.println("1) 예약하기"); // 인호
-		System.out.println("2) 찜하기"); // 연준
-		System.out.println("3) 뒤로가기");
+		System.out.println(r);
+		System.out.println(r.getRoomNo());
+		System.out.println("1) 리뷰보기");
+		System.out.println("2) 예약하기"); // 인호
+		System.out.println("3) 찜하기"); // 연준
+		System.out.println("4) 뒤로가기");
 		System.out.print("입력 : ");
 		int num = sc.nextInt();
 		sc.nextLine();
 		switch(num) {
-		case 1:    break;
+		case 1:/*if(rc.getReview(r.getRoomNo()).isEmpty()) {
+			System.out.println("선택하신 호텔에는 리뷰가 존재하지 않습니다.");
+		}else{
+			System.out.println(rc.getReview(r.getRoomNo()));
+		};*/ System.out.println(rc.getReview(r.getRoomNo()));  break;
 		case 2:    break;
-		case 3:    return;
+		case 3:    break;
+		case 4:    return;
 		default:System.out.println("잘못 입력했습니다.");   break;
 		}
 		}
 	}
+	
+	
 	
 	/**
 	 * 회원가입시 이름, 아이디, 비번을 입력받고 아이디 중복시 중복있다고 알려주는 메서드

@@ -8,9 +8,11 @@ import java.util.ArrayList;
 
 
 import com.reserve.model.vo.Member;
+import com.reserve.controller.ReserveController;
 import com.reserve.model.dao.ReserveDao;
 import com.reserve.model.vo.Review;
 import com.reserve.model.vo.Room;
+import com.reserve.view.ReserveMenu;
 
 public class ReserveService {
 	
@@ -55,13 +57,22 @@ public class ReserveService {
 		return list;
 	}
 	
-	public Review hotelChoice(int num) {
+	public Room hotelChoice(int num) {
 		Connection conn = getConnection();
-		Review r = new ReserveDao().hotelChoice(conn, num);
+		Room r = new ReserveDao().hotelChoice(conn, num);
 		close(conn);
 		
 		return r;
 		
 
+	}
+	
+	public ArrayList<Review> getReview(int RoomNo){
+		Connection conn = getConnection();
+		ArrayList<Review> list = new ReserveDao().getReview(conn, RoomNo);
+		close(conn);
+		
+		
+		return list;
 	}
 }

@@ -9,8 +9,8 @@ public class Review extends Room{
 	
 	public Review() {}
 
-	public Review(int roomNo, String roomName, int capacity, String type, String location, int price,int reviewNo,String review, int rated) {
-		super(roomNo,roomName,capacity,type,location,price);
+	public Review(int reviewNo,String review, int rated) {
+		super();
 		this.reviewNo = reviewNo;
 		this.review = review;
 		this.rated = rated;
@@ -58,8 +58,8 @@ public class Review extends Room{
 
 	@Override
 	public String toString() {
-		return super.toString()+"reviewNo=" + reviewNo + ", review="
-				+ review + ", rated=" + rated + "]";
+		return "reviewNo=" + reviewNo + ", review="
+				+ review + ", rated=" + rated;
 	}
 	
 	
