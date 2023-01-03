@@ -1,6 +1,6 @@
 package com.reserve.model.vo;
 
-public class Review {
+public class Review extends Room{
 	private int reviewNo;
 	private int roomNo;
 	private int reservatioNo;
@@ -9,11 +9,9 @@ public class Review {
 	
 	public Review() {}
 
-	public Review(int reviewNo, int roomNo, int reservatioNo, String review, int rated) {
-		super();
+	public Review(int roomNo, String roomName, int capacity, String type, String location, int price,int reviewNo,String review, int rated) {
+		super(roomNo,roomName,capacity,type,location,price);
 		this.reviewNo = reviewNo;
-		this.roomNo = roomNo;
-		this.reservatioNo = reservatioNo;
 		this.review = review;
 		this.rated = rated;
 	}
@@ -60,7 +58,7 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [reviewNo=" + reviewNo + ", roomNo=" + roomNo + ", reservatioNo=" + reservatioNo + ", review="
+		return super.toString()+"reviewNo=" + reviewNo + ", review="
 				+ review + ", rated=" + rated + "]";
 	}
 	

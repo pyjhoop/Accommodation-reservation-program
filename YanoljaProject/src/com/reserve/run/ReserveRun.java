@@ -10,9 +10,7 @@ public class ReserveRun {
 
 	public static void main(String[] args) {
 		ReserveMenu rm = new ReserveMenu();
-		rm.rogin();
-		
-		
+
 		
 		/*
 		Properties prop = new Properties();

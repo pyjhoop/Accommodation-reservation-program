@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
+
 	<entry key="getUserNames">
 		SELECT USERID
 		  FROM TB_MEMBER
@@ -17,4 +18,22 @@
 		  		 , ?
 		  		)
 	</entry>
+<entry key = "login">
+SELECT RESERVATION_NO
+FROM TB_MEMBER
+WHERE USERID = ? AND USERPWD = ?
+</entry>
+
+<entry key = "allSelect">
+SELECT *
+FROM TB_ROOM
+</entry>
+
+<entry key = "hotelChoice">
+SELECT ROOMNO,ROOMNAME,CAPACITY,TYPE,LOCATION,PRICE,REVIEWNO,REVIEW,RATED
+FROM TB_ROOM
+LEFT JOIN TB_REVIEW USING (ROOMNO)
+WHERE ROOMNO = ?
+GROUP BY ROOMNO,ROOMNAME,CAPACITY,TYPE,LOCATION,PRICE,REVIEWNO,REVIEW
+</entry>
 </properties>
