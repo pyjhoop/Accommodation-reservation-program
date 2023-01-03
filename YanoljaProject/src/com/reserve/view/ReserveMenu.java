@@ -96,7 +96,7 @@ public class ReserveMenu {
 		}
 	}
 	
-	public void hotelChoice() {
+	public void hotelChoice() { // 호텔목록중 호텔 선택
 		System.out.print("호텔 번호를 입력해주세요 : ");
 		int num = sc.nextInt();
 		sc.nextLine();
@@ -107,9 +107,9 @@ public class ReserveMenu {
 	public void reserveChoice(Room r) {
 		//선택한 호텔정보 출력
 		while(true) {
+	    System.out.println();
 		System.out.println(r);
-		System.out.println(r.getRoomNo());
-		System.out.println("1) 리뷰보기");
+		System.out.println("1) 리뷰보기"); // 인호
 		System.out.println("2) 예약하기"); // 인호
 		System.out.println("3) 찜하기"); // 연준
 		System.out.println("4) 뒤로가기");
@@ -117,11 +117,7 @@ public class ReserveMenu {
 		int num = sc.nextInt();
 		sc.nextLine();
 		switch(num) {
-		case 1:/*if(rc.getReview(r.getRoomNo()).isEmpty()) {
-			System.out.println("선택하신 호텔에는 리뷰가 존재하지 않습니다.");
-		}else{
-			System.out.println(rc.getReview(r.getRoomNo()));
-		};*/ System.out.println(rc.getReview(r.getRoomNo()));  break;
+		case 1:rc.getReview(r.getRoomNo());  break;
 		case 2:    break;
 		case 3:    break;
 		case 4:    return;
@@ -186,14 +182,15 @@ public class ReserveMenu {
 		login();
 	}
 	
-	public void outputList(ArrayList<Room> list) {
-		for(Room r : list) {
-			System.out.println(r);
+	public void outputList(ArrayList list) {
+		for(Object o : list) {
+			System.out.println(o);
 		}
 	}
 	
 	public void noDate(String message) {
 		System.out.println(message);
 	}
+	
 
 }

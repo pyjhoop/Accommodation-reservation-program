@@ -56,6 +56,11 @@ public class ReserveController {
 	public ArrayList<Review> getReview(int RoomNo) {
 		ArrayList<Review> list = new ReserveService().getReview(RoomNo);
 		
+		if(list.isEmpty()) {
+			new ReserveMenu().noDate("선택하신 호텔에는 리뷰가 존재하지 않습니다.");
+		}else {
+			new ReserveMenu().outputList(list);
+		}
 		
 		return list;
 	}
