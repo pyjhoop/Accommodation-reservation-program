@@ -75,4 +75,16 @@ public class ReserveService {
 		
 		return list;
 	}
+	
+	public int reservePayment(Room r,int result,int date) {
+		Connection conn = getConnection();
+		int result2 = new ReserveDao().reservePayment(conn,r,result,date);
+		if(result2>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result2;
+	}
 }

@@ -188,4 +188,24 @@ public class ReserveDao {
 		}
 		return list;
 	}
+	
+	public int reservePayment(Connection conn,Room r,int result,int date) {
+		int result2 = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("reservePayment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, r.getRoomNo());
+			pstmt.setInt(2, date);
+			pstmt.setInt(3, result);
+			result2 = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result2;
+	}
 }

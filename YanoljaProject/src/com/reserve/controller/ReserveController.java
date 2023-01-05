@@ -31,7 +31,7 @@ public class ReserveController {
 		int result = new ReserveService().login(userId,userPwd);
 		
 		if(result>0) {
-			new ReserveMenu().mainMenu();
+			new ReserveMenu().mainMenu(result);
 		}else {
 			new ReserveMenu().loginFail("아이디가 없거나 비밀번호를 잘못 입력하셨습니다.");
 		}
@@ -43,13 +43,13 @@ public class ReserveController {
 		new ReserveMenu().outputList(list);
 	}
 	
-	public void hotelChoice(int num) {
+	public void hotelChoice(int num, int result) {
 		Room r = new ReserveService().hotelChoice(num);
 		
 		if(r==null) {
 			new ReserveMenu().noDate("존재하지 않는 객실입니다.");
 		}else{
-			new ReserveMenu().reserveChoice(r);
+			new ReserveMenu().reserveChoice(r , result);
 		}
 	}
 	
@@ -63,5 +63,15 @@ public class ReserveController {
 		}
 		
 		return list;
+	}
+	
+	public void reservePayment(Room r,int result,int date) {
+		int result2 = new ReserveService().reservePayment(r,result,date);
+		
+		if(result2>0) {
+			new ReserveMenu().ReserveSuccess("성공적으로 예약했습니다.", result2);
+		}else {
+			new ReserveMenu().ReserveFail("예약에 실패했습니다.",result2);
+		}
 	}
 }

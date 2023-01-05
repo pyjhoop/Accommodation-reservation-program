@@ -40,4 +40,7 @@ SELECT REVIEWNO,REVIEW,RATED
 FROM TB_REVIEW
 WHERE ROOMNO = ?
 </entry>
+<entry key = "reservePayment">
+INSERT INTO TB_RESERVATION VALUES(SEQ_RESERVE.NEXTVAL,'예약',?,SYSDATE,SYSDATE+?,?)
+</entry>
 </properties>
