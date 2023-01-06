@@ -43,4 +43,9 @@ WHERE ROOMNO = ?
 <entry key = "reservePayment">
 INSERT INTO TB_RESERVATION VALUES(SEQ_RESERVE.NEXTVAL,'예약',?,SYSDATE,SYSDATE+?,?)
 </entry>
+<entry key = "listReserve">
+SELECT *
+FROM TB_RESERVATION
+WHERE RESERVATION_NO = ?
+</entry>
 </properties>

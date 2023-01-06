@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.reserve.model.service.ReserveService;
 import com.reserve.model.vo.Member;
+import com.reserve.model.vo.Reserve;
 import com.reserve.model.vo.Review;
 import com.reserve.model.vo.Room;
 import com.reserve.view.ReserveMenu;
@@ -72,6 +73,16 @@ public class ReserveController {
 			new ReserveMenu().ReserveSuccess("성공적으로 예약했습니다.", result2);
 		}else {
 			new ReserveMenu().ReserveFail("예약에 실패했습니다.",result2);
+		}
+	}
+	
+	public void listReserve(int reserveNo) {
+		ArrayList<Reserve> list = new ReserveService().listReserve(reserveNo);
+		
+		if(list.isEmpty()) {
+			
+		}else {
+			new ReserveMenu().getReview(list);
 		}
 	}
 }

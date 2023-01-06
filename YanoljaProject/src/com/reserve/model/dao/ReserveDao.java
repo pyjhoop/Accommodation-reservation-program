@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import com.reserve.model.vo.Member;
+import com.reserve.model.vo.Reserve;
 import com.reserve.model.vo.Review;
 import com.reserve.model.vo.Room;
 
@@ -207,5 +208,36 @@ public class ReserveDao {
 			close(pstmt);
 		}
 		return result2;
+	}
+	
+	public ArrayList<Reserve> listReserve(Connection conn,int reserveNo){
+		ArrayList<Reserve> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("listReserve");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reserveNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Reserve(rset.getInt("RESERVNO")
+									,rset.getString("STATE")
+									,rset.getInt("ROMMNO")
+									,rset.getDate("STARTDATE")
+									,rset.getDate("ENDDATE")
+									,rset.getInt("RESERVATION_NO")
+						
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }

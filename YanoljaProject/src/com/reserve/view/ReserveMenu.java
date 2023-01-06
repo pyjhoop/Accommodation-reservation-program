@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import com.reserve.controller.ReserveController;
 import com.reserve.model.vo.Member;
+import com.reserve.model.vo.Reserve;
 import com.reserve.model.vo.Room;
 
 
@@ -55,7 +56,8 @@ public class ReserveMenu {
 			System.out.println("1) 예약하기");// 인호
 			System.out.println("2) 예약취소");// 연준
 			System.out.println("3) 내 찜하기보기"); // 연준
-			System.out.println("4) 뒤로가기");
+			System.out.println("4) 리뷰쓰기");//인호
+			System.out.println("5) 뒤로가기");
 			System.out.print("입력 : ");
 			int num = sc.nextInt();
 			sc.nextLine();
@@ -63,7 +65,8 @@ public class ReserveMenu {
 			case 1 : reserve(result);  break;
 			case 2 :   break;
 			case 3 :   break;
-			case 4 :  return;
+			case 4 : listReserve(result);  break;
+			case 5 :  return;
 			default : System.out.println("잘못입력하셨습니다."); break;
 			}
 			
@@ -95,6 +98,45 @@ public class ReserveMenu {
 			}
 		}
 	}
+	
+	public void listReserve(int reserveNo) {
+		System.out.println("== 리뷰메뉴 ==");
+		rc.listReserve(reserveNo);
+		
+	}
+	
+	public void getReview(ArrayList<Reserve> list) {
+		int count = 0;
+		for(Reserve r : list) {
+			System.out.println(r);
+		}
+		System.out.println("리뷰를 쓰실 예약번호를 입력해주세요");
+		System.out.print("입력 : ");
+		int num = sc.nextInt();
+		sc.nextLine();
+		while(true) {
+		for(Reserve r: list) {
+			if(r.getReservationNo()==num && r.getState().equals("예약")) {
+				reviewWrite(r);
+			}
+			count++;
+			if(count == list.size()-1) {
+				System.out.println("잘못 입력했습니다.");
+				count = 0;
+				return;
+			}
+		}
+		}
+	}
+	
+	public void reviewWrite(Reserve r) {
+		System.out.print("리뷰를 입력해주세요(300자이내) : ");
+		String review = sc.nextLine();
+		System.out.print("별점을 매겨주세요(1~5 사이 입력) : ");
+		
+	}
+	
+	
 	
 	public void hotelChoice(int result) { // 호텔목록중 호텔 선택
 		System.out.print("호텔 번호를 입력해주세요 : ");

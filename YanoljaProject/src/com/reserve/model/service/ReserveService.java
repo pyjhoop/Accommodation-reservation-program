@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 
 import com.reserve.model.vo.Member;
+import com.reserve.model.vo.Reserve;
 import com.reserve.controller.ReserveController;
 import com.reserve.model.dao.ReserveDao;
 import com.reserve.model.vo.Review;
@@ -86,5 +87,14 @@ public class ReserveService {
 		}
 		close(conn);
 		return result2;
+	}
+	
+	public ArrayList<Reserve> listReserve(int reserveNo){
+		Connection conn = getConnection();
+		ArrayList<Reserve> list = new ReserveDao().listReserve(conn,reserveNo);
+		close(conn);
+		
+		return list;
+		
 	}
 }
