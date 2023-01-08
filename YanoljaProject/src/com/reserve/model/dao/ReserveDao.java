@@ -240,4 +240,87 @@ public class ReserveDao {
 		}
 		return list;
 	}
+	
+	public ArrayList<Reserve> selectReserve( Connection conn, int reservationNo){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReserve");
+		ArrayList<Reserve> list = new ArrayList<Reserve>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservationNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Reserve(rset.getInt("RESERVNO")
+						, rset.getInt("ROMMNO")
+						, rset.getString("ROOMNAME")
+						, rset.getDate("STARTDATE")
+						, rset.getDate("ENDDATE")));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return list;
+	}
+	
+	public int deleteReservation(Connection conn, int reservNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteReservation");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public ArrayList<Room> orderList(Connection conn, int num){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Room> list = new ArrayList<Room>();
+		String sql = "";
+		if(num == 1) {
+			sql = prop.getProperty("orderByRate");
+		}else if(num == 2) {
+			sql = prop.getProperty("orderByName");
+		}else {
+			sql = prop.getProperty("orderByPrice");
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Room(rset.getInt("ROOMNO"),
+						 rset.getString("ROOMNAME"),
+						 rset.getInt("PRICE"),
+						 rset.getDouble("NVL(AVG(RATED),0)")));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
 }

@@ -29,6 +29,33 @@ public class ReserveService {
 		return list;
 	}
 	
+	public ArrayList<Reserve> selectReserve(int reservationNo){
+		Connection conn = getConnection();
+		ArrayList<Reserve> list = new ReserveDao().selectReserve(conn, reservationNo);
+		close(conn);
+		return list;
+	}
+	
+	public void deleteReservation(int reservNo) {
+		Connection conn = getConnection();
+		int result = new ReserveDao().deleteReservation(conn, reservNo);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+	}
+	
+	public ArrayList<Room> orderList(int num){
+		Connection conn = getConnection();
+		ArrayList<Room> list = new ReserveDao().orderList(conn, num);
+		close(conn);
+		return list;
+	}
+	
+	
+	
 	public int signUp(Member m) {
 		Connection conn = getConnection();
 		int result = new ReserveDao().signUp(conn, m);

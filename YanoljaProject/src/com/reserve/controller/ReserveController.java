@@ -10,6 +10,8 @@ import com.reserve.model.vo.Room;
 import com.reserve.view.ReserveMenu;
 
 public class ReserveController {
+	
+	//=========================박연준=========================
 
 	/**
 	 * DB에 있는 아이디를 가져오는 메서드
@@ -28,6 +30,27 @@ public class ReserveController {
 			new ReserveMenu().signUpMessage("== 회원가입에 실패했습니다 ==");
 		}
 	}
+	
+	public ArrayList<Reserve> selectReserve(int reservationNo) {
+		ArrayList<Reserve> list = new ReserveService().selectReserve(reservationNo);
+		return list;
+	}
+	
+	public void deleteReservation(int reservNo) {
+		new ReserveService().deleteReservation(reservNo);
+	}
+	
+	public void orderList(int num) {
+		ArrayList<Room> list = new ReserveService().orderList(num);
+		if(list.isEmpty()) {
+			new ReserveMenu().selectMessage("조회된 정보가 없습니다");
+		}else {
+			new ReserveMenu().orderList(list);
+		}
+	}
+	
+	
+	//====================강인호===================================
 	public void login(String userId, String userPwd) {
 		int result = new ReserveService().login(userId,userPwd);
 		

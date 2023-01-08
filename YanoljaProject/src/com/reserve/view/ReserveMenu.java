@@ -13,6 +13,7 @@ public class ReserveMenu {
 	private Scanner sc = new Scanner(System.in);
 	
 	private ReserveController rc = new ReserveController();
+	int reservationNo= 0;
 	
 	
 	public void login() {
@@ -63,7 +64,7 @@ public class ReserveMenu {
 			sc.nextLine();
 			switch(num) {
 			case 1 : reserve(result);  break;
-			case 2 :   break;
+			case 2 : cancel(result); break;
 			case 3 :   break;
 			case 4 : listReserve(result);  break;
 			case 5 :  return;
@@ -76,10 +77,10 @@ public class ReserveMenu {
 	
 	public void reserve(int result) { // 예약하기 메뉴 눌렀을때 호출되는 메소드
 		
+		rc.allSelect();
 		while(true) {
 			System.out.println("== 예약하기 메뉴==");
 			System.out.println();
-			rc.allSelect();
 			System.out.println("1) 선택하기"); // 인호
 			System.out.println("2) 별점순으로 보기"); // 연준
 			System.out.println("3) 이름순"); // 연준
@@ -90,14 +91,47 @@ public class ReserveMenu {
 			sc.nextLine();
 			switch(num) {
 			case 1: hotelChoice(result);	break;
-			case 2:     break;
-			case 3:     break;
-			case 4:     break;
+			case 2: rc.orderList(1); break;
+			case 3: rc.orderList(2); break;
+			case 4: rc.orderList(3); break;
 			case 5:     return;
 			default: System.out.println("잘못 입력했습니다."); break;
 			}
 		}
 	}
+	
+	public void cancel(int result) {
+		System.out.println("== 예약 취소 ==");
+		System.out.println("== 현재 예약중인 방 ==");
+		ArrayList<Reserve> list = rc.selectReserve(result);
+		for(int i = 0; i<list.size();i++) {
+			Reserve r = list.get(i);
+			System.out.println("예약번호 : "+r.getReserveNo()+" 숙소번호 : "+
+			r.getRoomNo()+" 숙소이름 : "+r.getRoomName()+" 예약시작일 : "+r.getStartDate()+" 예약종료일 : "+r.getEndDate());
+		}
+		
+		System.out.print("예약번호 입력 : ");
+		int reservNo = sc.nextInt();
+		sc.nextLine();
+		char ch = ' ';
+		for(int i = 0; i<list.size(); i++) {
+			if(reservNo == list.get(i).getReserveNo()) {
+				System.out.println("예약 번호 : "+reservNo+"을 취소하시겠습니까? (y/n)");
+				System.out.print("입력 : ");
+				ch = sc.nextLine().toUpperCase().charAt(0);
+				break;
+			}
+		}
+		
+		if(ch == 'Y') {
+			rc.deleteReservation(reservNo);
+			System.out.println("예약 취소가 완료됬습니다.");
+		}else {
+			System.out.println("이전으로 돌아갑니다");
+		}
+		
+	}
+	
 	
 	
 	
@@ -267,6 +301,17 @@ public class ReserveMenu {
 	public void signUpMessage(String message) {
 		System.out.println(message);
 		
+	}
+	public void orderList(ArrayList list) {
+		for(int i =0; i<list.size(); i++) {
+			Room r = (Room) list.get(i);
+			System.out.println("숙소번호 : "+r.getRoomNo()+" 숙소이름 : "+r.getRoomName()
+			+" 가격 : " + r.getPrice()+" 평점 : "+r.getRate());
+		}
+	}
+	
+	public void selectMessage(String message) {
+		System.out.println(message);
 	}
 	
 	//=============================== 응답화면 ============================================

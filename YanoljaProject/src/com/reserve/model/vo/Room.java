@@ -7,7 +7,17 @@ public class Room {
 	private String type;
 	private String location;
 	private int price;
+	private double rate;
 	
+	
+
+	public Room(int roomNo, String roomName, int price, double rate) {
+		this.roomNo = roomNo;
+		this.roomName = roomName;
+		this.price = price;
+		this.rate = rate;
+	}
+
 	public Room() {}
 
 	public Room(int roomNo, String roomName, int capacity, String type, String location, int price) {
@@ -20,6 +30,15 @@ public class Room {
 		this.price = price;
 	}
 
+	public double getRate() {
+		return rate;
+	}
+	
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
+	
 	public int getRoomNo() {
 		return roomNo;
 	}

@@ -6,20 +6,42 @@ public class Reserve {
 	private int reserveNo;
 	private String state;
 	private int roomNo;
+	private String roomName;
 	private Date startDate;
 	private Date endDate;
 	private int reservationNo;
 	
 	public Reserve() {}
+	
+	
+
+	public Reserve(int reserveNo, int roomNo, String roomName, Date startDate, Date endDate) {
+		this.reserveNo = reserveNo;
+		this.roomNo = roomNo;
+		this.roomName = roomName;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+
 
 	public Reserve(int reserveNo, String state, int roomNo, Date startDate, Date endDate, int reservationNo) {
-		super();
 		this.reserveNo = reserveNo;
 		this.state = state;
 		this.roomNo = roomNo;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.reservationNo = reservationNo;
+	}
+	
+	
+
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
 
 	public int getReserveNo() {
