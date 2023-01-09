@@ -124,4 +124,22 @@ public class ReserveService {
 		return list;
 		
 	}
+	
+	public int inputReview(Reserve r,String review, int rated) {
+		Connection conn = getConnection();
+		int result = new ReserveDao().inputReview(conn,r,review,rated);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int overlapReview(int num,int reserveNo) {
+		Connection conn = getConnection();
+		int result = new ReserveDao().overlapReview(conn,num,reserveNo);
+	}
 }

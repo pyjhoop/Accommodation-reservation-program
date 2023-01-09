@@ -50,7 +50,7 @@ public class ReserveMenu {
 	
 	
 	public void mainMenu(int result) {
-		
+		System.out.println(result);
 		while(true) {
 			System.out.println("=== 숙박 프로그램 ===");
 			System.out.println();
@@ -136,12 +136,13 @@ public class ReserveMenu {
 	
 	
 	public void listReserve(int reserveNo) {
+		System.out.println(reserveNo);
 		System.out.println("== 리뷰메뉴 ==");
 		rc.listReserve(reserveNo);
 		
 	}
 	
-	public void getReview(ArrayList<Reserve> list) {
+	public void getReview(ArrayList<Reserve> list, int reserveNo) {
 		int count = 0;
 		for(Reserve r : list) {
 			System.out.println(r);
@@ -150,9 +151,12 @@ public class ReserveMenu {
 		System.out.print("입력 : ");
 		int num = sc.nextInt();
 		sc.nextLine();
+		if(rc.overlapReview(num,reserveNo)>0) {
+			System.out.println("이미 해당 예약룸에 리뷰를 작성하셨습니다.");
+		}
 		while(true) {
 		for(Reserve r: list) {
-			if(r.getReservationNo()==num && r.getState().equals("예약")) {
+			if(r.getReserveNo()==num && r.getState().equals("예약")) {
 				reviewWrite(r);
 			}
 			count++;
@@ -166,10 +170,15 @@ public class ReserveMenu {
 	}
 	
 	public void reviewWrite(Reserve r) {
+		while(true) {
 		System.out.print("리뷰를 입력해주세요(300자이내) : ");
 		String review = sc.nextLine();
 		System.out.print("별점을 매겨주세요(1~5 사이 입력) : ");
+		int rated = sc.nextInt();
+		sc.nextLine();
+	    rc.inputReview(r,review,rated);
 		
+		}
 	}
 	
 	
@@ -341,6 +350,7 @@ public class ReserveMenu {
 		System.out.println(message);
 		mainMenu(result);
 	}
+	
 	
 
 }

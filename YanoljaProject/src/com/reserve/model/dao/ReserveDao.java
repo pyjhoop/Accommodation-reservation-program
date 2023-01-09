@@ -323,4 +323,35 @@ public class ReserveDao {
 		}
 		return list;
 	}
+	
+	public int inputReview(Connection conn,Reserve r,String review, int rated) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("inputReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, r.getRoomNo());
+			pstmt.setInt(2, r.getReservationNo());
+			pstmt.setString(3, review);
+			pstmt.setInt(4, rated);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int overlapReview(Connection conn, int num,int reserveNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("overlapReview");
+	}
 }

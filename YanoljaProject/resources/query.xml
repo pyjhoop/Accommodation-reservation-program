@@ -86,4 +86,12 @@ SELECT *
 FROM TB_RESERVATION
 WHERE RESERVATION_NO = ?
 </entry>
+<entry key = "inputReview">
+INSERT INTO TB_REVIEW VALUES(SEQ_REVIEW.NEXTVAL,?,?,?,?)
+</entry>
+<entry key = "overlapReview">
+SELECT *
+FROM TB_REVIEW
+WHERE 
+</entry>
 </properties>

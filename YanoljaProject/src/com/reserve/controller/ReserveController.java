@@ -105,7 +105,22 @@ public class ReserveController {
 		if(list.isEmpty()) {
 			
 		}else {
-			new ReserveMenu().getReview(list);
+			new ReserveMenu().getReview(list,reserveNo);
 		}
+	}
+	
+	public void inputReview(Reserve r,String review, int rated) {
+		int result = new ReserveService().inputReview(r,review,rated);
+		
+		if(result > 0) {
+			new ReserveMenu().ReserveSuccess("리뷰등록이 성공했습니다.", r.getReservationNo());
+		}else {
+			new ReserveMenu().ReserveFail("리뷰등록이 실패했습니다.", r.getReservationNo());
+		}
+		
+	}
+	
+	public int overlapReview(int num,int reserveNo) {
+		int result = new ReserveService().overlapReview(num,reserveNo);
 	}
 }
