@@ -225,7 +225,7 @@ public class ReserveDao {
 			while(rset.next()) {
 				list.add(new Reserve(rset.getInt("RESERVNO")
 									,rset.getString("STATE")
-									,rset.getInt("ROMMNO")
+									,rset.getInt("ROOMNO")
 									,rset.getDate("STARTDATE")
 									,rset.getDate("ENDDATE")
 									,rset.getInt("RESERVATION_NO")
@@ -347,11 +347,54 @@ public class ReserveDao {
 		return result;
 	}
 	
-	public int overlapReview(Connection conn, int num,int reserveNo) {
+	public int overlapReview(Connection conn, int num,int reserveNo,int roomNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("overlapReview");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reserveNo);
+			pstmt.setInt(2, num);
+			pstmt.setInt(3, roomNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("REVIEWNO");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int overlapReserve(Connection conn,Room r,int reservationNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("overlapReserve");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservationNo);
+			pstmt.setInt(2, r.getRoomNo());
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("RESERVNO");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return result;
 	}
 }

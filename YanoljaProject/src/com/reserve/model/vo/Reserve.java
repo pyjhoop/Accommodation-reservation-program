@@ -94,8 +94,8 @@ public class Reserve {
 
 	@Override
 	public String toString() {
-		return "Reserve [reserveNo=" + reserveNo + ", state=" + state + ", roomNo=" + roomNo + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", reservationNo=" + reservationNo + "]";
+		return "예약번호 :" + reserveNo + ", 예약상태 : " + state + ", 방 번호" + roomNo + ", 예약 시작일 : "
+				+ startDate + ", 예약 마감일 : " + endDate + ", 회원 번호 : " + reservationNo;
 	}
 	
 	

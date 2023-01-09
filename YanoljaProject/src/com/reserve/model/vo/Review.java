@@ -58,8 +58,8 @@ public class Review extends Room{
 
 	@Override
 	public String toString() {
-		return "reviewNo=" + reviewNo + ", review="
-				+ review + ", rated=" + rated;
+		return "리뷰번호 : " + reviewNo + ", 리뷰 : "
+				+ review + ", 별점 : " + rated+"점";
 	}
 	
 	

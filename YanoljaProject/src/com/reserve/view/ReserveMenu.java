@@ -50,7 +50,6 @@ public class ReserveMenu {
 	
 	
 	public void mainMenu(int result) {
-		System.out.println(result);
 		while(true) {
 			System.out.println("=== 숙박 프로그램 ===");
 			System.out.println();
@@ -144,28 +143,44 @@ public class ReserveMenu {
 	
 	public void getReview(ArrayList<Reserve> list, int reserveNo) {
 		int count = 0;
+		int sum = 0;
 		for(Reserve r : list) {
 			System.out.println(r);
 		}
+		while(true) {
 		System.out.println("리뷰를 쓰실 예약번호를 입력해주세요");
+		System.out.println("0) 뒤로가기");
 		System.out.print("입력 : ");
 		int num = sc.nextInt();
 		sc.nextLine();
-		if(rc.overlapReview(num,reserveNo)>0) {
+		for(Reserve r : list) {
+			if(r.getReserveNo()==num) {
+		if(rc.overlapReview(num,reserveNo,r.getRoomNo())>0) {
 			System.out.println("이미 해당 예약룸에 리뷰를 작성하셨습니다.");
+			sum = 1;
 		}
-		while(true) {
+			}
+		}
+		if(sum == 1) {
+			sum = 0;
+			continue;
+		}
+		if(num == 0) {
+			return;
+		}
+		
 		for(Reserve r: list) {
 			if(r.getReserveNo()==num && r.getState().equals("예약")) {
 				reviewWrite(r);
 			}
 			count++;
-			if(count == list.size()-1) {
+			if(count == list.size()) {
 				System.out.println("잘못 입력했습니다.");
 				count = 0;
 				return;
 			}
 		}
+		
 		}
 	}
 	
@@ -205,7 +220,12 @@ public class ReserveMenu {
 		sc.nextLine();
 		switch(num) {
 		case 1:rc.getReview(r.getRoomNo());  break;
-		case 2: reserveDate(r ,result);    break;
+		case 2: 
+			if(rc.overlapReserve(r,result)>0) {
+				System.out.println("해당 방에 이미 예약되어있습니다.");
+				continue;
+			}
+			reserveDate(r ,result);    break;
 		case 3:    break;
 		case 4:    return;
 		default:System.out.println("잘못 입력했습니다.");   break;

@@ -138,8 +138,17 @@ public class ReserveService {
 		return result;
 	}
 	
-	public int overlapReview(int num,int reserveNo) {
+	public int overlapReview(int num,int reserveNo,int roomNo) {
 		Connection conn = getConnection();
-		int result = new ReserveDao().overlapReview(conn,num,reserveNo);
+		int result = new ReserveDao().overlapReview(conn,num,reserveNo,roomNo);
+		close(conn);
+		return result;
+	}
+	
+	public int overlapReserve(Room r,int reservationNo) {
+		Connection conn = getConnection();
+		int result = new ReserveDao().overlapReserve(conn,r,reservationNo);
+		close(conn);
+		return result;
 	}
 }

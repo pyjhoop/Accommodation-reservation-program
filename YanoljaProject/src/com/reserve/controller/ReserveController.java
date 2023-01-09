@@ -93,9 +93,9 @@ public class ReserveController {
 		int result2 = new ReserveService().reservePayment(r,result,date);
 		
 		if(result2>0) {
-			new ReserveMenu().ReserveSuccess("성공적으로 예약했습니다.", result2);
+			new ReserveMenu().ReserveSuccess("성공적으로 예약했습니다.", result);
 		}else {
-			new ReserveMenu().ReserveFail("예약에 실패했습니다.",result2);
+			new ReserveMenu().ReserveFail("예약에 실패했습니다.",result);
 		}
 	}
 	
@@ -120,7 +120,15 @@ public class ReserveController {
 		
 	}
 	
-	public int overlapReview(int num,int reserveNo) {
-		int result = new ReserveService().overlapReview(num,reserveNo);
+	public int overlapReview(int num,int reserveNo,int roomNo) {
+		int result = new ReserveService().overlapReview(num,reserveNo,roomNo);
+		
+		return result;
+	}
+	
+	public int overlapReserve(Room r,int reservationNo){
+		int result = new ReserveService().overlapReserve(r, reservationNo);
+		
+		return result;
 	}
 }
