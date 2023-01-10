@@ -29,7 +29,7 @@ public class ReserveMenu {
 			int num = exception();
 			sc.nextLine();
 			switch(num) {	
-			case 1 : inputLogin();    break;
+			case 1 : inputLogin(); break;
 			case 2 : signUp();break;
 			case 3 : System.out.println("프로그램을 종료합니다"); return;
 			default : System.out.println("잘못된 숫자를 입력했습니다.");  break;
@@ -80,7 +80,7 @@ public class ReserveMenu {
 			switch(num) {
 			case 1 : reserve(result);  break;
 			case 2 : cancel(result); break;
-			case 3 :   break;
+			case 3 : zzim(result); break;
 			case 4 : listReserve(result);  break;
 			case 5 :  login(); break;
 			default : System.out.println("잘못입력하셨습니다."); break;
@@ -88,6 +88,19 @@ public class ReserveMenu {
 			
 		}
 		
+	}
+	
+	public void zzim(int result) {
+		rc.zzim(result);
+		System.out.println("1. 예약하기  2. 뒤로가기");
+		System.out.print("입력 : ");
+		int num = exception();
+		int num1 = 0;
+		ArrayList<Integer> list = rc.getRoomNo(result);
+		if(num == 1) {
+			hotelChoice(result, list);
+			
+		}
 	}
 	
 	public void reserve(int result) { // 예약하기 메뉴 눌렀을때 호출되는 메소드
@@ -105,11 +118,11 @@ public class ReserveMenu {
 			int num = exception();
 			sc.nextLine();
 			switch(num) {
-			case 1: hotelChoice(result);	break;
+			case 1: hotelChoice(result);break;
 			case 2: rc.orderList(1); break;
 			case 3: rc.orderList(2); break;
 			case 4: rc.orderList(3); break;
-			case 5:     return;
+			case 5: return;
 			default: System.out.println("잘못 입력했습니다."); break;
 			}
 		}
@@ -212,6 +225,25 @@ public class ReserveMenu {
 		}
 	}
 	
+	public void hotelChoice(int result, ArrayList<Integer> list) { // 숙소목록중 호텔 선택 오버로딩 
+		System.out.print("숙소 번호를 입력해주세요 : ");
+		int num = exception();
+		sc.nextLine();
+		
+		for(int i: list) {
+			if(num == i) {
+				int num1 = rc.hotelChoice(num ,result);
+				System.out.println(num1);
+				if(num1 == 2) {
+					rc.deleteZzim(result);
+				}
+				return;
+			}
+		}
+		System.out.println("찜목록에 없는 숙소입니다.");
+
+
+	}
 	
 	
 	public void hotelChoice(int result) { // 숙소목록중 호텔 선택
@@ -222,7 +254,8 @@ public class ReserveMenu {
 		rc.hotelChoice(num ,result);
 	}
 	
-	public void reserveChoice(Room r, int result) {
+	public int reserveChoice(Room r, int result) {
+		int num = 0;
 		//선택한 호텔정보 출력
 		while(true) {
 	    System.out.println();
@@ -232,7 +265,7 @@ public class ReserveMenu {
 		System.out.println("3) 찜하기"); // 연준
 		System.out.println("4) 뒤로가기");
 		System.out.print("입력 : ");
-		int num = exception();
+		num = exception();
 		sc.nextLine();
 		switch(num) {
 		case 1:rc.getReview(r.getRoomNo());  break;
@@ -243,9 +276,10 @@ public class ReserveMenu {
 			}
 			reserveDate(r ,result);    break;
 		case 3:    break;
-		case 4:    return;
+		case 4:    return 0;
 		default:System.out.println("잘못 입력했습니다.");   break;
 		}
+		return num;
 		}
 	}
 	
@@ -379,7 +413,7 @@ public class ReserveMenu {
 	
 	public void ReserveSuccess(String message,int result) {
 		System.out.println(message);
-		mainMenu(result);
+//		mainMenu(result);
 	}
 	
 	public void ReserveFail(String message , int result) {

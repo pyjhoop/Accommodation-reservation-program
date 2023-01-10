@@ -67,7 +67,34 @@ public class ReserveService {
 		close(conn);
 		return result;
 	}
-
+	
+	public ArrayList<Room> zzim(int result){
+		Connection conn = getConnection();
+		
+		ArrayList<Room> list = new ReserveDao().zzim(conn, result);
+		
+		close(conn);
+		return list;
+	}
+	public ArrayList<Integer> getRoomNo(int result){
+		Connection conn = getConnection();
+		ArrayList<Integer> list = new ReserveDao().getRoomNo(conn, result);
+		
+		close(conn);
+		return list;
+	}
+	public void deleteZzim(int result) {
+		Connection conn = getConnection();
+		int result1 = new ReserveDao().deleteZzim(conn, result);
+			
+		if(result1 >0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+	}
 
 	public int login(String userId,String userPwd) {
 		Connection conn = getConnection();

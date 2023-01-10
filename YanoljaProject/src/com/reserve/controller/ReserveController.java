@@ -49,6 +49,25 @@ public class ReserveController {
 		}
 	}
 	
+	public void zzim(int result) {
+		ArrayList<Room> list = new ReserveService().zzim(result);
+		if(list.isEmpty()) {
+			new ReserveMenu().selectMessage("찜한 숙소가 없습니다.");
+		}else {
+			new ReserveMenu().outputList(list);
+		}
+	}
+	public ArrayList<Integer> getRoomNo(int result){
+		ArrayList<Integer> list = new ReserveService().getRoomNo(result);
+		return list;
+	}
+	
+	public void deleteZzim(int result) {
+		new ReserveService().deleteZzim(result);
+	}
+	
+
+	
 	
 	//====================강인호===================================
 	public void login(String userId, String userPwd) {
@@ -67,14 +86,15 @@ public class ReserveController {
 		new ReserveMenu().outputList(list);
 	}
 	
-	public void hotelChoice(int num, int result) {
+	public int hotelChoice(int num, int result) {
 		Room r = new ReserveService().hotelChoice(num);
-		
+		int num1 = 0;
 		if(r==null) {
 			new ReserveMenu().noDate("존재하지 않는 객실입니다.");
 		}else{
-			new ReserveMenu().reserveChoice(r , result);
+			num1 = new ReserveMenu().reserveChoice(r , result);
 		}
+		return num1;
 	}
 	
 	public ArrayList<Review> getReview(int RoomNo) {

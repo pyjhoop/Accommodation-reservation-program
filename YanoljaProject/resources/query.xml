@@ -40,7 +40,7 @@
 		SELECT ROOMNO, ROOMNAME, PRICE, NVL(AVG(RATED),0) FROM TB_ROOM
 		LEFT JOIN TB_REVIEW USING (ROOMNO)
 		GROUP BY ROOMNO, ROOMNAME, PRICE
-		ORDER BY AVG(RATED) ASC
+		ORDER BY 4 DESC
 	</entry>
 	
 	<entry key="orderByName">
@@ -55,6 +55,30 @@
 		LEFT JOIN TB_REVIEW USING (ROOMNO)
 		GROUP BY ROOMNO, ROOMNAME, PRICE
 		ORDER BY PRICE DESC
+	</entry>
+	
+	<entry key="zzim">
+		SELECT 
+				ROOMNO
+			  , ROOMNAME
+			  , CAPACITY
+			  , TYPE
+			  , LOCATION
+			  , PRICE
+		 FROM TB_ZZIM
+		 JOIN TB_ROOM USING(ROOMNO)
+		 WHERE MEMBERNO = ? AND ZZIM = 1
+	</entry>
+	
+	<entry key="getRoomNo">
+		SELECT ROOMNO
+		  FROM TB_ZZIM
+		 WHERE MEMBERNO = ?
+	</entry>
+	
+	<entry key="deleteZzim">
+		DELETE FROM TB_ZZIM
+		WHERE MEMBERNO = ?
 	</entry>
 <entry key = "login">
 SELECT RESERVATION_NO

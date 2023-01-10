@@ -397,4 +397,76 @@ public class ReserveDao {
 		}
 		return result;
 	}
+	
+	public ArrayList<Room> zzim(Connection conn, int result){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("zzim");
+		ArrayList<Room> list = new ArrayList<Room>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, result);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Room(
+							rset.getInt("ROOMNO"),
+							rset.getString("ROOMNAME"),
+							rset.getInt("CAPACITY"),
+							rset.getString("TYPE"),
+							rset.getString("LOCATION"),
+							rset.getInt("PRICE")));
+			}
+			
+			
+		} catch (SQLException e) {
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return list;
+	}
+	public ArrayList<Integer> getRoomNo(Connection conn ,int result){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getRoomNo");
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, result);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(rset.getInt("ROOMNO"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(conn);
+			close(pstmt);
+		}
+		return list;
+	}
+	public int deleteZzim(Connection conn ,int result) {
+		PreparedStatement pstmt = null;
+		int result1 = 0;
+		String sql = prop.getProperty("deleteZzim");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, result);
+			
+			result1 = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result1;
+	}
 }
