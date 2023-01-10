@@ -22,12 +22,12 @@
 	<entry key="selectReserve">
 		SELECT 
 				 RESERVNO
-			   , ROMMNO
+			   , E.ROOMNO
 			   , ROOMNAME
 			   , STARTDATE
 			   , ENDDATE
-		  FROM TB_RESERVATION
-		  JOIN TB_ROOM ON (ROOMNO=ROMMNO)
+		  FROM TB_RESERVATION E
+		  JOIN TB_ROOM D ON (E.ROOMNO = D.ROOMNO)
 		  WHERE RESERVATION_NO = ?
 	</entry>
 	

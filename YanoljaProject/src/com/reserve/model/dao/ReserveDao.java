@@ -255,7 +255,7 @@ public class ReserveDao {
 			
 			while(rset.next()) {
 				list.add(new Reserve(rset.getInt("RESERVNO")
-						, rset.getInt("ROMMNO")
+						, rset.getInt("ROOMNO")
 						, rset.getString("ROOMNAME")
 						, rset.getDate("STARTDATE")
 						, rset.getDate("ENDDATE")));

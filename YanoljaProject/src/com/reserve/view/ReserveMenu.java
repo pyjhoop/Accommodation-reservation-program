@@ -1,6 +1,7 @@
 package com.reserve.view;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import com.reserve.controller.ReserveController;
 import com.reserve.model.vo.Member;
@@ -16,7 +17,7 @@ public class ReserveMenu {
 	int reservationNo= 0;
 	
 	
-	public void login() {
+	public void login() { // 로그인 
 		
 		while(true) {
 			System.out.println("로그인 화면입니다.");
@@ -25,7 +26,7 @@ public class ReserveMenu {
 			System.out.println("2) 회원가입하기.");//연준
 			System.out.println("3) 프로그램 종료");
 			System.out.print("입력 : ");
-			int num = sc.nextInt();
+			int num = exception();
 			sc.nextLine();
 			switch(num) {	
 			case 1 : inputLogin();    break;
@@ -34,6 +35,21 @@ public class ReserveMenu {
 			default : System.out.println("잘못된 숫자를 입력했습니다.");  break;
 			}
 		}
+	}
+	
+	public int exception() { //숫자 입력하지 않을 시 예외처리 메소드
+		int num = 0;
+		while(true) {
+			try {
+				num = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.print("숫자만 입력해주세요 :");
+				sc.nextLine();
+				continue;
+			}
+			break;
+		}
+		return num;
 	}
 	
 	public void inputLogin() { //login 입력시키는 메소드
@@ -49,7 +65,7 @@ public class ReserveMenu {
 	
 	
 	
-	public void mainMenu(int result) {
+	public void mainMenu(int result) { // 메인메뉴 매개변수 result는 회원번호
 		while(true) {
 			System.out.println("=== 숙박 프로그램 ===");
 			System.out.println();
@@ -59,14 +75,14 @@ public class ReserveMenu {
 			System.out.println("4) 리뷰쓰기");//인호
 			System.out.println("5) 뒤로가기");
 			System.out.print("입력 : ");
-			int num = sc.nextInt();
+			int num = exception();
 			sc.nextLine();
 			switch(num) {
 			case 1 : reserve(result);  break;
 			case 2 : cancel(result); break;
 			case 3 :   break;
 			case 4 : listReserve(result);  break;
-			case 5 :  return;
+			case 5 :  login(); break;
 			default : System.out.println("잘못입력하셨습니다."); break;
 			}
 			
@@ -86,7 +102,7 @@ public class ReserveMenu {
 			System.out.println("4) 가격순");// 연준
 			System.out.println("5) 뒤로가기");
 			System.out.print("입력 : ");
-			int num = sc.nextInt();
+			int num = exception();
 			sc.nextLine();
 			switch(num) {
 			case 1: hotelChoice(result);	break;
@@ -110,7 +126,7 @@ public class ReserveMenu {
 		}
 		
 		System.out.print("예약번호 입력 : ");
-		int reservNo = sc.nextInt();
+		int reservNo = exception();
 		sc.nextLine();
 		char ch = ' ';
 		for(int i = 0; i<list.size(); i++) {
@@ -134,14 +150,14 @@ public class ReserveMenu {
 	
 	
 	
-	public void listReserve(int reserveNo) {
+	public void listReserve(int reserveNo) { // 예약목록을 반환
 		System.out.println(reserveNo);
 		System.out.println("== 리뷰메뉴 ==");
 		rc.listReserve(reserveNo);
 		
 	}
 	
-	public void getReview(ArrayList<Reserve> list, int reserveNo) {
+	public void getReview(ArrayList<Reserve> list, int reserveNo) { //리뷰쓰기 
 		int count = 0;
 		int sum = 0;
 		for(Reserve r : list) {
@@ -151,7 +167,7 @@ public class ReserveMenu {
 		System.out.println("리뷰를 쓰실 예약번호를 입력해주세요");
 		System.out.println("0) 뒤로가기");
 		System.out.print("입력 : ");
-		int num = sc.nextInt();
+		int num = exception();
 		sc.nextLine();
 		for(Reserve r : list) {
 			if(r.getReserveNo()==num) {
@@ -184,12 +200,12 @@ public class ReserveMenu {
 		}
 	}
 	
-	public void reviewWrite(Reserve r) {
+	public void reviewWrite(Reserve r) { // 리뷰쓰기
 		while(true) {
 		System.out.print("리뷰를 입력해주세요(300자이내) : ");
 		String review = sc.nextLine();
 		System.out.print("별점을 매겨주세요(1~5 사이 입력) : ");
-		int rated = sc.nextInt();
+		int rated = exception();
 		sc.nextLine();
 	    rc.inputReview(r,review,rated);
 		
@@ -198,9 +214,9 @@ public class ReserveMenu {
 	
 	
 	
-	public void hotelChoice(int result) { // 호텔목록중 호텔 선택
-		System.out.print("호텔 번호를 입력해주세요 : ");
-		int num = sc.nextInt();
+	public void hotelChoice(int result) { // 숙소목록중 호텔 선택
+		System.out.print("숙소 번호를 입력해주세요 : ");
+		int num = exception();
 		sc.nextLine();
 		
 		rc.hotelChoice(num ,result);
@@ -216,7 +232,7 @@ public class ReserveMenu {
 		System.out.println("3) 찜하기"); // 연준
 		System.out.println("4) 뒤로가기");
 		System.out.print("입력 : ");
-		int num = sc.nextInt();
+		int num = exception();
 		sc.nextLine();
 		switch(num) {
 		case 1:rc.getReview(r.getRoomNo());  break;
@@ -233,14 +249,14 @@ public class ReserveMenu {
 		}
 	}
 	
-	public void reserveDate(Room r , int result) {
+	public void reserveDate(Room r , int result) { // 예약일 정하기
 		while(true) {
 		System.out.println("== 예약 화면 ==");
 		System.out.println();
 		System.out.println("몇일 후로 예약하겠습니까? 일주일까지 예약가능! (1~7)의 숫자 입력 ]");
 		System.out.println("0) 뒤로가기 ");
 		System.out.print("입력 : ");
-		int date = sc.nextInt();
+		int date = exception();
 		sc.nextLine();
 		if(date>0&&date<8) {
 			reservePayment(r,result,date);
@@ -252,7 +268,7 @@ public class ReserveMenu {
 		}
 	}
 	
-	public void reservePayment(Room r, int result,int date) {
+	public void reservePayment(Room r, int result,int date) { // 예약시 결제방식 정하기
 		while(true) {
 		System.out.println("== 결제 화면 ==");
 		System.out.println();
@@ -262,7 +278,7 @@ public class ReserveMenu {
 		System.out.println("3) 네이버페이");
 		System.out.println("4) 뒤로가기");
 		System.out.print("입력 : ");
-		int payment = sc.nextInt();
+		int payment = exception();
 		sc.nextLine();
 		int sum = r.getPrice();
 		switch(payment) {
