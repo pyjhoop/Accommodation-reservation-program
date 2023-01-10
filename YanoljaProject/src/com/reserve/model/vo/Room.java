@@ -89,7 +89,7 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "호텔 번호 : " + roomNo + ", 숙소 이름 : " + roomName + ", 수용 인원 : " + capacity + ", 숙소 타입 :" + type
+		return "숙소 번호 : " + roomNo + ", 숙소 이름 : " + roomName + ", 수용 인원 : " + capacity + ", 숙소 타입 :" + type
 				+ ", 위치 : " + location + ", 가격 :" + price + "원";
 	}
 	
