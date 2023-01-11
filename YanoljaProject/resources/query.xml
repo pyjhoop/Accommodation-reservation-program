@@ -67,7 +67,7 @@
 			  , PRICE
 		 FROM TB_ZZIM
 		 JOIN TB_ROOM USING(ROOMNO)
-		 WHERE MEMBERNO = ? AND ZZIM = 1
+		 WHERE MEMBERNO = ?
 	</entry>
 	
 	<entry key="getRoomNo">
@@ -78,7 +78,12 @@
 	
 	<entry key="deleteZzim">
 		DELETE FROM TB_ZZIM
-		WHERE MEMBERNO = ?
+		WHERE MEMBERNO = ? AND ROOMNO = ?
+	</entry>
+	
+	<entry key="doZzim">
+		INSERT INTO TB_ZZIM
+		VALUES(SEQ_ZZIM.NEXTVAL, ?, ?)
 	</entry>
 <entry key = "login">
 SELECT RESERVATION_NO

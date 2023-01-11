@@ -13,15 +13,21 @@ public class ReserveController {
 	
 	//=========================박연준=========================
 
+	
 	/**
-	 * DB에 있는 아이디를 가져오는 메서드
-	 * @author 박연준
+	 * 유저 아이디를 가져오는 메서드
+	 * 이름을 잘못지음
 	 * @return
 	 */
 	public ArrayList<String> getUserNames(){
 		return new ReserveService().getUserNames();
 	}
 	
+	
+	/**
+	 * 회원가입 메서드
+	 * @param m
+	 */
 	public void signUp(Member m) {
 		int result = new ReserveService().signUp(m);
 		if(result >0) {
@@ -31,15 +37,28 @@ public class ReserveController {
 		}
 	}
 	
+	/**
+	 * 현재 예약중인 방 반환
+	 * @param reservationNo
+	 * @return
+	 */
 	public ArrayList<Reserve> selectReserve(int reservationNo) {
 		ArrayList<Reserve> list = new ReserveService().selectReserve(reservationNo);
 		return list;
 	}
 	
+	/**
+	 * 예약중인 방 취소 
+	 * @param reservNo
+	 */
 	public void deleteReservation(int reservNo) {
 		new ReserveService().deleteReservation(reservNo);
 	}
 	
+	/**
+	 * 숙소 정렬하는 기능
+	 * @param num
+	 */
 	public void orderList(int num) {
 		ArrayList<Room> list = new ReserveService().orderList(num);
 		if(list.isEmpty()) {
@@ -49,6 +68,10 @@ public class ReserveController {
 		}
 	}
 	
+	/**
+	 * 내찜 보기
+	 * @param result
+	 */
 	public void zzim(int result) {
 		ArrayList<Room> list = new ReserveService().zzim(result);
 		if(list.isEmpty()) {
@@ -57,13 +80,37 @@ public class ReserveController {
 			new ReserveMenu().outputList(list);
 		}
 	}
+	/**
+	 * 내가 찜한 방번호 반환
+	 * @param result
+	 * @return
+	 */
 	public ArrayList<Integer> getRoomNo(int result){
 		ArrayList<Integer> list = new ReserveService().getRoomNo(result);
 		return list;
 	}
 	
-	public void deleteZzim(int result) {
-		new ReserveService().deleteZzim(result);
+	/**
+	 * 찜목록 삭제
+	 * @param result
+	 * @param num
+	 */
+	public void deleteZzim(int result,int num) {
+		new ReserveService().deleteZzim(result, num);
+	}
+	
+	/**
+	 * 찜하기 기능 담당
+	 * @param r
+	 * @param result
+	 */
+	public void doZzim(Room r, int result) {
+		int result1 = new ReserveService().doZzim(r,result);
+		if(result1>0) {
+			new ReserveMenu().selectMessage("찜 성공");
+		}else {
+			new ReserveMenu().selectMessage("찜 실패");
+		}
 	}
 	
 

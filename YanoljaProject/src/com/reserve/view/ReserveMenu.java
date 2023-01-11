@@ -17,7 +17,10 @@ public class ReserveMenu {
 	int reservationNo= 0;
 	
 	
-	public void login() { // 로그인 
+	/**
+	 * 전반적인 로그인 메서드
+	 */
+	public void login() { 
 		
 		while(true) {
 			System.out.println("로그인 화면입니다.");
@@ -37,34 +40,10 @@ public class ReserveMenu {
 		}
 	}
 	
-	public int exception() { //숫자 입력하지 않을 시 예외처리 메소드
-		int num = 0;
-		while(true) {
-			try {
-				num = sc.nextInt();
-			} catch (InputMismatchException e) {
-				System.out.print("숫자만 입력해주세요 :");
-				sc.nextLine();
-				continue;
-			}
-			break;
-		}
-		return num;
-	}
-	
-	public void inputLogin() { //login 입력시키는 메소드
-		System.out.println("== 숙박 프로그램 ==");
-		System.out.println();
-		System.out.print("아이디를 입력하세요 : ");
-		String userId = sc.nextLine();
-		System.out.print("비밀번호를 입력하세요 : ");
-		String userPwd = sc.nextLine();
-		
-		rc.login(userId, userPwd);
-	}
-	
-	
-	
+	/**
+	 * 메인메뉴 출력 메서드
+	 * @param result
+	 */
 	public void mainMenu(int result) { // 메인메뉴 매개변수 result는 회원번호
 		while(true) {
 			System.out.println("=== 숙박 프로그램 ===");
@@ -85,25 +64,67 @@ public class ReserveMenu {
 			case 5 :  login(); break;
 			default : System.out.println("잘못입력하셨습니다."); break;
 			}
-			
 		}
+	}
+	
+	
+	/**
+	 * 로그인시 필요한 값 입력받는 메서드
+	 */
+	public void inputLogin() { 
+		System.out.println("== 숙박 프로그램 ==");
+		System.out.println();
+		System.out.print("아이디를 입력하세요 : ");
+		String userId = sc.nextLine();
+		System.out.print("비밀번호를 입력하세요 : ");
+		String userPwd = sc.nextLine();
 		
+		rc.login(userId, userPwd);
 	}
 	
-	public void zzim(int result) {
-		rc.zzim(result);
-		System.out.println("1. 예약하기  2. 뒤로가기");
-		System.out.print("입력 : ");
-		int num = exception();
-		int num1 = 0;
-		ArrayList<Integer> list = rc.getRoomNo(result);
-		if(num == 1) {
-			hotelChoice(result, list);
-			
+	/**
+	 * 회원가입시 이름, 아이디, 비번을 입력받고 아이디 중복시 중복있다고 알려주는 메서드
+	 * @author 박연준
+	 */
+	public void signUp() {
+		boolean flag = false;
+		System.out.println("=== 회원 가입 ===");
+		System.out.print("\n이름 입력 : ");
+		String userName = sc.nextLine();
+		String userId = "";
+		
+		ArrayList<String> userNames = rc.getUserNames();
+		while(true) {
+			System.out.print("아이디 입력 : ");
+			userId = sc.nextLine();
+			for(String s: userNames) {
+				if(s.equals(userId)) {
+					System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요\n");
+					break;
+				}else {
+					System.out.println("사용가능한 아이디입니다\n");
+					flag = true;
+					break;
+				}
+			}
+			if(flag) {
+				break;
+			}
 		}
+		System.out.print("비밀번호 입력 : ");
+		String pwd = sc.nextLine();
+		System.out.print("\n예약 인원수 입력 : ");
+		String guest = sc.nextLine();
+		
+		Member m = new Member(userName, userId, pwd, Integer.parseInt(guest));
+		rc.signUp(m);
 	}
 	
-	public void reserve(int result) { // 예약하기 메뉴 눌렀을때 호출되는 메소드
+	/**
+	 * 예약하기 메뉴 눌렀을 때 호출되는 메서드
+	 * @param result
+	 */
+	public void reserve(int result) { 
 		
 		rc.allSelect();
 		while(true) {
@@ -128,6 +149,186 @@ public class ReserveMenu {
 		}
 	}
 	
+	/**
+	 * 숙소 목록중 호텔번호 선택
+	 * @param result
+	 */
+	public void hotelChoice(int result) { 
+		System.out.print("숙소 번호를 입력해주세요 : ");
+		int num = exception();
+		sc.nextLine();
+		
+		rc.hotelChoice(num ,result);
+	}
+	
+	/**
+	 * 내찜목록에서 예약시 실행될 메서드
+	 * @param result
+	 * @param list
+	 */
+	public void hotelChoice(int result, ArrayList<Integer> list) { 
+		System.out.print("숙소 번호를 입력해주세요 : ");
+		int num = exception();
+		sc.nextLine();
+		
+		for(int i: list) {
+			if(num == i) {
+				int num1 = rc.hotelChoice(num ,result);
+				System.out.println(num1);
+				if(num1 == 2) {
+					rc.deleteZzim(result,num);
+				}
+				return;
+			}
+		}
+		System.out.println("찜목록에 없는 숙소입니다.");
+	}
+	
+	/**
+	 * 입력한 숙소번호가 실제 데이터에 있을시 실행되는 메서드
+	 * 
+	 */
+	public int reserveChoice(Room r, int result) {
+		int num = 0;
+		//선택한 호텔정보 출력
+		while(true) {
+	    System.out.println();
+		System.out.println(r);
+		System.out.println("1) 리뷰보기"); // 인호
+		System.out.println("2) 예약하기"); // 인호
+		System.out.println("3) 찜하기"); // 연준
+		System.out.println("4) 뒤로가기");
+		System.out.print("입력 : ");
+		num = exception();
+		sc.nextLine();
+		switch(num) {
+		case 1:rc.getReview(r.getRoomNo());  break;
+		case 2: 
+			if(rc.overlapReserve(r,result)>0) {
+				System.out.println("해당 방에 이미 예약되어있습니다.");
+				num=0;
+				continue;
+			}
+			num = reserveDate(r ,result);break;
+		case 3: doZzim(r,result); break;
+		case 4:    return 0;
+		default:System.out.println("잘못 입력했습니다.");   break;
+		}
+		return num;
+		}
+	}
+	
+	/**
+	 * 예약하기 선택시 날짜 선택 메서드
+	 * @param r
+	 * @param result
+	 * @return
+	 */
+	public int reserveDate(Room r , int result) { // 예약일 정하기
+		int num = 0;
+		while(true) {
+		System.out.println("== 예약 화면 ==");
+		System.out.println();
+		System.out.println("몇일 후로 예약하겠습니까? 일주일까지 예약가능! (1~7)의 숫자 입력 ]");
+		System.out.println("0) 뒤로가기 ");
+		System.out.print("입력 : ");
+		int date = exception();
+		sc.nextLine();
+		if(date>0&&date<8) {
+			num = reservePayment(r,result,date);
+		}else if(date==0){
+			return num;
+		}else {
+			System.out.println("잘못 입력하셨습니다. 옳바른 숫자를 입력해주세요");
+		}
+		return num;
+		}
+	}
+	
+	/**
+	 * 예약하기 선택, 날짜 선택 후 결제방식 정하기
+	 * @param r
+	 * @param result
+	 * @param date
+	 * @return
+	 */
+	public int reservePayment(Room r, int result,int date) { // 예약시 결제방식 정하기
+		int num = 0;
+		while(true) {
+		System.out.println("== 결제 화면 ==");
+		System.out.println();
+		System.out.println("결제 방식을 선택해주세요");
+		System.out.println("1) 카드결제");
+		System.out.println("2) 카카오페이(카카오와 제휴 이벤트로 결제시 10%할인)");
+		System.out.println("3) 네이버페이");
+		System.out.println("4) 뒤로가기");
+		System.out.print("입력 : ");
+		int payment = exception();
+		sc.nextLine();
+		int sum = r.getPrice();
+		switch(payment) {
+		case 1 : break;
+		case 2 : sum = (int) (sum*0.9); break;
+		case 3 : break;
+		case 4 : return num;
+		default : System.out.println("잘못 입력했습니다."); continue;
+		}
+		System.out.println("결제 금액은 "+sum+"원 입니다. 결제하시겠습니까?");
+		System.out.print("입력 (y/n) : ");
+		char yn = sc.nextLine().toUpperCase().charAt(0);
+		if(yn=='Y') {
+			rc.reservePayment(r,result,date);
+			num = 2;
+		}else if(yn=='N') {
+			System.out.println("결제가 취소되었습니다. 메인 화면으로 돌아갑니다.");
+			mainMenu(result);
+		}else {
+			System.out.println("잘못 입력했습니다.");
+		}
+		return num;
+		}
+	}
+	
+	/**
+	 * 내찜보기 선택시 출력되는 메서드
+	 * @param result
+	 */
+	public void zzim(int result) {
+		rc.zzim(result);
+		System.out.println("1. 예약하기  2. 뒤로가기");
+		System.out.print("입력 : ");
+		int num = exception();
+		int num1 = 0;
+		ArrayList<Integer> list = rc.getRoomNo(result);
+		if(num == 1) {
+			hotelChoice(result, list);
+			
+		}
+	}
+	
+	/**
+	 * 호텔선택 창에서 찜하기 메서드
+	 * @param r
+	 * @param result
+	 */
+	public void doZzim(Room r, int result) {
+		ArrayList<Integer> list = rc.getRoomNo(result);
+		
+		for(int i: list) {
+			if(i == r.getRoomNo()) {
+				System.out.println("이미 찜이 되어있습니다.");
+				return;
+			}
+		}
+		rc.doZzim(r, result);
+	}
+	
+	
+	
+	/**
+	 * 예약 취소 메서드
+	 * @param result
+	 */
 	public void cancel(int result) {
 		System.out.println("== 예약 취소 ==");
 		System.out.println("== 현재 예약중인 방 ==");
@@ -160,17 +361,23 @@ public class ReserveMenu {
 		
 	}
 	
-	
-	
-	
-	public void listReserve(int reserveNo) { // 예약목록을 반환
+	/**
+	 * 예약 목록을 반환하는 메서드
+	 * @param reserveNo
+	 */
+	public void listReserve(int reserveNo) {
 		System.out.println(reserveNo);
 		System.out.println("== 리뷰메뉴 ==");
 		rc.listReserve(reserveNo);
 		
 	}
 	
-	public void getReview(ArrayList<Reserve> list, int reserveNo) { //리뷰쓰기 
+	/**
+	 * 리뷰쓰기 메서드1
+	 * @param list
+	 * @param reserveNo
+	 */
+	public void getReview(ArrayList<Reserve> list, int reserveNo) { 
 		int count = 0;
 		int sum = 0;
 		for(Reserve r : list) {
@@ -213,6 +420,10 @@ public class ReserveMenu {
 		}
 	}
 	
+	/**
+	 * 리뷰쓰기 메서드2
+	 * @param r
+	 */
 	public void reviewWrite(Reserve r) { // 리뷰쓰기
 		while(true) {
 		System.out.print("리뷰를 입력해주세요(300자이내) : ");
@@ -225,154 +436,32 @@ public class ReserveMenu {
 		}
 	}
 	
-	public void hotelChoice(int result, ArrayList<Integer> list) { // 숙소목록중 호텔 선택 오버로딩 
-		System.out.print("숙소 번호를 입력해주세요 : ");
-		int num = exception();
-		sc.nextLine();
-		
-		for(int i: list) {
-			if(num == i) {
-				int num1 = rc.hotelChoice(num ,result);
-				System.out.println(num1);
-				if(num1 == 2) {
-					rc.deleteZzim(result);
-				}
-				return;
-			}
-		}
-		System.out.println("찜목록에 없는 숙소입니다.");
 
-
-	}
 	
 	
-	public void hotelChoice(int result) { // 숙소목록중 호텔 선택
-		System.out.print("숙소 번호를 입력해주세요 : ");
-		int num = exception();
-		sc.nextLine();
-		
-		rc.hotelChoice(num ,result);
-	}
 	
-	public int reserveChoice(Room r, int result) {
-		int num = 0;
-		//선택한 호텔정보 출력
-		while(true) {
-	    System.out.println();
-		System.out.println(r);
-		System.out.println("1) 리뷰보기"); // 인호
-		System.out.println("2) 예약하기"); // 인호
-		System.out.println("3) 찜하기"); // 연준
-		System.out.println("4) 뒤로가기");
-		System.out.print("입력 : ");
-		num = exception();
-		sc.nextLine();
-		switch(num) {
-		case 1:rc.getReview(r.getRoomNo());  break;
-		case 2: 
-			if(rc.overlapReserve(r,result)>0) {
-				System.out.println("해당 방에 이미 예약되어있습니다.");
-				continue;
-			}
-			reserveDate(r ,result);    break;
-		case 3:    break;
-		case 4:    return 0;
-		default:System.out.println("잘못 입력했습니다.");   break;
-		}
-		return num;
-		}
-	}
 	
-	public void reserveDate(Room r , int result) { // 예약일 정하기
-		while(true) {
-		System.out.println("== 예약 화면 ==");
-		System.out.println();
-		System.out.println("몇일 후로 예약하겠습니까? 일주일까지 예약가능! (1~7)의 숫자 입력 ]");
-		System.out.println("0) 뒤로가기 ");
-		System.out.print("입력 : ");
-		int date = exception();
-		sc.nextLine();
-		if(date>0&&date<8) {
-			reservePayment(r,result,date);
-		}else if(date==0){
-			return;
-		}else {
-			System.out.println("잘못 입력하셨습니다. 옳바른 숫자를 입력해주세요");
-		}
-		}
-	}
 	
-	public void reservePayment(Room r, int result,int date) { // 예약시 결제방식 정하기
-		while(true) {
-		System.out.println("== 결제 화면 ==");
-		System.out.println();
-		System.out.println("결제 방식을 선택해주세요");
-		System.out.println("1) 카드결제");
-		System.out.println("2) 카카오페이(카카오와 제휴 이벤트로 결제시 10%할인)");
-		System.out.println("3) 네이버페이");
-		System.out.println("4) 뒤로가기");
-		System.out.print("입력 : ");
-		int payment = exception();
-		sc.nextLine();
-		int sum = r.getPrice();
-		switch(payment) {
-		case 1 : break;
-		case 2 : sum = (int) (sum*0.9); break;
-		case 3 : break;
-		case 4 : return;
-		default : System.out.println("잘못 입력했습니다."); continue;
-		}
-		System.out.println("결제 금액은 "+sum+"원 입니다. 결제하시겠습니까?");
-		System.out.print("입력 (y/n) : ");
-		char yn = sc.nextLine().toUpperCase().charAt(0);
-		if(yn=='Y') {
-			rc.reservePayment(r,result,date);
-		}else if(yn=='N') {
-			System.out.println("결제가 취소되었습니다. 메인 화면으로 돌아갑니다.");
-			mainMenu(result);
-		}else {
-			System.out.println("잘못 입력했습니다.");
-		}
-		}
-	}
+	
+	
 	
 	/**
-	 * 회원가입시 이름, 아이디, 비번을 입력받고 아이디 중복시 중복있다고 알려주는 메서드
-	 * @author 박연준
+	 * 정수타입 예외처리 메서드
+	 * @return
 	 */
-	public void signUp() {
-		boolean flag = false;
-		System.out.println("=== 회원 가입 ===");
-		System.out.print("\n이름 입력 : ");
-		String userName = sc.nextLine();
-		String userId = "";
-		
-		ArrayList<String> userNames = rc.getUserNames();
-		System.out.println(userNames);
+	public int exception() { //숫자 입력하지 않을 시 예외처리 메소드
+		int num = 0;
 		while(true) {
-			System.out.print("아이디 입력 : ");
-			userId = sc.nextLine();
-			for(String s: userNames) {
-				if(s.equals(userId)) {
-					System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요\n");
-					break;
-				}else {
-					System.out.println("사용가능한 아이디입니다\n");
-					flag = true;
-					break;
-				}
+			try {
+				num = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.print("숫자만 입력해주세요 :");
+				sc.nextLine();
+				continue;
 			}
-			if(flag) {
-				break;
-			}
+			break;
 		}
-		System.out.print("비밀번호 입력 : ");
-		String pwd = sc.nextLine();
-		System.out.print("\n예약 인원수 입력 : ");
-		String guest = sc.nextLine();
-		
-		Member m = new Member(userName, userId, pwd, Integer.parseInt(guest));
-		rc.signUp(m);
+		return num;
 	}
 	
 	
@@ -418,7 +507,7 @@ public class ReserveMenu {
 	
 	public void ReserveFail(String message , int result) {
 		System.out.println(message);
-		mainMenu(result);
+//		mainMenu(result);
 	}
 	
 	

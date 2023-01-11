@@ -17,11 +17,7 @@ import com.reserve.view.ReserveMenu;
 
 public class ReserveService {
 	
-	/**
-	 * DB의 아이디를 가져오는 메서드
-	 * @author 박연준
-	 * @return
-	 */
+	
 	public ArrayList<String> getUserNames(){
 		Connection conn = getConnection();
 		ArrayList<String> list = new ReserveDao().getUserNames(conn);
@@ -76,16 +72,23 @@ public class ReserveService {
 		close(conn);
 		return list;
 	}
-	public ArrayList<Integer> getRoomNo(int result){
+	
+	public int doZzim(Room r, int result) {
 		Connection conn = getConnection();
-		ArrayList<Integer> list = new ReserveDao().getRoomNo(conn, result);
+		int result1 = new ReserveDao().doZzim(conn, r, result);
 		
+		if(result1 >0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
 		close(conn);
-		return list;
+		return result1;
 	}
-	public void deleteZzim(int result) {
+	
+	public void deleteZzim(int result, int num) {
 		Connection conn = getConnection();
-		int result1 = new ReserveDao().deleteZzim(conn, result);
+		int result1 = new ReserveDao().deleteZzim(conn, result, num);
 			
 		if(result1 >0) {
 			commit(conn);
@@ -95,6 +98,16 @@ public class ReserveService {
 		
 		close(conn);
 	}
+	
+	public ArrayList<Integer> getRoomNo(int result){
+		Connection conn = getConnection();
+		ArrayList<Integer> list = new ReserveDao().getRoomNo(conn, result);
+		
+		close(conn);
+		return list;
+	}
+	
+	//===================강인호===========================
 
 	public int login(String userId,String userPwd) {
 		Connection conn = getConnection();

@@ -451,7 +451,7 @@ public class ReserveDao {
 		}
 		return list;
 	}
-	public int deleteZzim(Connection conn ,int result) {
+	public int deleteZzim(Connection conn ,int result, int num) {
 		PreparedStatement pstmt = null;
 		int result1 = 0;
 		String sql = prop.getProperty("deleteZzim");
@@ -459,6 +459,27 @@ public class ReserveDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, result);
+			pstmt.setInt(2, num);
+			
+			result1 = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result1;
+	}
+	
+	public int doZzim(Connection conn, Room r, int result) {
+		PreparedStatement pstmt = null;
+		int result1 = 0;
+		String sql = prop.getProperty("doZzim");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, result);
+			pstmt.setInt(2, r.getRoomNo());
 			
 			result1 = pstmt.executeUpdate();
 			
