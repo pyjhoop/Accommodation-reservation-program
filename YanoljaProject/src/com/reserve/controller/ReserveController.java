@@ -143,6 +143,16 @@ public class ReserveController {
 		}
 		return num1;
 	}
+	public int hotelChoice1(int num, int result) {
+		Room r = new ReserveService().hotelChoice(num);
+		int num1 = 0;
+		if(r==null) {
+			new ReserveMenu().noDate("존재하지 않는 객실입니다.");
+		}else{
+			num1 = new ReserveMenu().reserveDate(r, result);
+		}
+		return num1;
+	}
 	
 	public ArrayList<Review> getReview(int RoomNo) {
 		ArrayList<Review> list = new ReserveService().getReview(RoomNo);
@@ -180,9 +190,9 @@ public class ReserveController {
 		int result = new ReserveService().inputReview(r,review,rated);
 		
 		if(result > 0) {
-			new ReserveMenu().ReserveSuccess("리뷰등록이 성공했습니다.", r.getReservationNo());
+			new ReserveMenu().ReserveSuccess1("리뷰등록이 성공했습니다.", r.getReservationNo());
 		}else {
-			new ReserveMenu().ReserveFail("리뷰등록이 실패했습니다.", r.getReservationNo());
+			new ReserveMenu().ReserveFail1("리뷰등록이 실패했습니다.", r.getReservationNo());
 		}
 		
 	}

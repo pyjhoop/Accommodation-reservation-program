@@ -93,11 +93,11 @@ public class ReserveMenu {
 		String userName = sc.nextLine();
 		String userId = "";
 		
-		ArrayList<String> userNames = rc.getUserNames();
+		ArrayList<String> userids = rc.getUserNames();
 		while(true) {
 			System.out.print("아이디 입력 : ");
 			userId = sc.nextLine();
-			for(String s: userNames) {
+			for(String s: userids) {
 				if(s.equals(userId)) {
 					System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요\n");
 					break;
@@ -173,7 +173,7 @@ public class ReserveMenu {
 		
 		for(int i: list) {
 			if(num == i) {
-				int num1 = rc.hotelChoice(num ,result);
+				int num1 = rc.hotelChoice1(num ,result);
 				System.out.println(num1);
 				if(num1 == 2) {
 					rc.deleteZzim(result,num);
@@ -298,13 +298,14 @@ public class ReserveMenu {
 		System.out.println("1. 예약하기  2. 뒤로가기");
 		System.out.print("입력 : ");
 		int num = exception();
-		int num1 = 0;
 		ArrayList<Integer> list = rc.getRoomNo(result);
 		if(num == 1) {
 			hotelChoice(result, list);
+		
 			
 		}
 	}
+	
 	
 	/**
 	 * 호텔선택 창에서 찜하기 메서드
@@ -436,15 +437,6 @@ public class ReserveMenu {
 		}
 	}
 	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * 정수타입 예외처리 메서드
 	 * @return
@@ -502,10 +494,17 @@ public class ReserveMenu {
 	
 	public void ReserveSuccess(String message,int result) {
 		System.out.println(message);
-	 mainMenu(result);
 	}
 	
 	public void ReserveFail(String message , int result) {
+		System.out.println(message);
+	}
+	public void ReserveSuccess1(String message,int result) {
+		System.out.println(message);
+	 mainMenu(result);
+	}
+	
+	public void ReserveFail1(String message , int result) {
 		System.out.println(message);
 		mainMenu(result);
 	}
