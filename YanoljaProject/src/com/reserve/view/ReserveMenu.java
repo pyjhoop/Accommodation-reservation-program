@@ -502,12 +502,12 @@ public class ReserveMenu {
 	
 	public void ReserveSuccess(String message,int result) {
 		System.out.println(message);
-//		mainMenu(result);
+	 mainMenu(result);
 	}
 	
 	public void ReserveFail(String message , int result) {
 		System.out.println(message);
-//		mainMenu(result);
+		mainMenu(result);
 	}
 	
 	
